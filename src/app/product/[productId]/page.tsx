@@ -3,7 +3,9 @@ import { Label } from "@/components/ui/label" // Importe le composant Label depu
 import { RadioGroupItem, RadioGroup } from "@/components/ui/radio-group"
 import { SelectValue, SelectTrigger, SelectItem, SelectContent, Select } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
-import {ChevronLeftIcon} from "lucide-react"; // Importe l'icône ChevronLeftIcon depuis la bibliothèque Lucide React
+import { Card, CardContent } from "@/components/ui/card"
+import {Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious,} from "@/components/ui/carousel"
+
 
 export default function Component({ params }: { params: any }) { //Utilise le référencement dynamique : selon l'URL spécifié, (/product/1 par exemple) donne la page produit lié
 
@@ -33,9 +35,6 @@ export default function Component({ params }: { params: any }) { //Utilise le r�
 
     // Recherche un produit spécifique dans la liste productData en fonction de son identifiant et renvoi en fonction un bool
     const selectedProduct = productData.find((product) => product.id === parseInt(params.productId));
-
-
-    const slides = [{src: "ev301_1.png"}, {src: "ev301_2.png"}, {src: "ev301_3.png"}, {src: "ev301_4.png"}];
 
 
     // Si le produit est référencé, alors on affiche
@@ -153,6 +152,7 @@ export default function Component({ params }: { params: any }) { //Utilise le r�
                                 </Button>
                             </div>
 
+
                         </form>
 
                     </div>
@@ -160,32 +160,27 @@ export default function Component({ params }: { params: any }) { //Utilise le r�
                     {/* Conteneur pour l'image (grosse) avec position relative */}
                     <div className="flex flex-col w-full lg:w-1/2">
                         <div className="relative">
-                            {/* Image */}
-                            <img
-                                alt=""
-                                className="w-full h-auto rounded-lg border-2 border-gray-200"
-                                height="400"
-                                src="/ev301_1.png"
+                            {/* Carousel pour permettre le changement de l'image avec les boutons */}
+                            <Carousel>
+                                <CarouselContent>
+                                    {Array.from({ length: 3 }).map((_, index) => (
+                                        <CarouselItem key={index}>
+                                            <div className="p-0">
+                                                <Card className="overflow-hidden rounded-lg border-2 border-gray-200">
+                                                    <CardContent >
+                                                        {index === 0 && <img src={"/ev301_1.png"} alt="Image 1" className="w-full h-auto" />}
+                                                        {index === 1 && <img src={"/ev301_2.png"} alt="Image 2" className="w-full h-auto" />}
+                                                        {index === 2 && <img src={"/ev301_3.png"} alt="Image 3" className="w-full h-auto" />}
+                                                    </CardContent>
+                                                </Card>
+                                            </div>
+                                        </CarouselItem>
+                                    ))}
+                                </CarouselContent>
+                                <CarouselPrevious />
+                                <CarouselNext />
+                            </Carousel>
 
-                                style={{
-                                    aspectRatio: "400/400",
-                                    objectFit: "cover",
-                                }}
-                                width="4" />
-
-                            {/* Indicateur de vue */}
-                            <div className="absolute top-4 left-4 bg-white py-2 px-4 shadow-sm">
-                                <p className="text-sm font-medim text-gray-700">01 / 04</p>
-                            </div>
-                            {/* Boutons de navigation */}
-                            <div className="absolute top-4 right-4 flex items-center space-x-2">
-                                <Button className="bg-white p-2 shadow-sm" variant={"outline"}>
-                                    <ChevronLeftIcon className="h-5 w-5 text-gray-700"/>
-                                </Button>
-                                <Button className="bg-white p-2 shadow-sm" variant={"outline"}>
-                                    <ChevronRightIcon className="h-5 w-5 text-gray-700"/>
-                                </Button>
-                            </div>
                         </div>
 
                         {/* Conteneur pour les petites images */}
@@ -234,6 +229,9 @@ export default function Component({ params }: { params: any }) { //Utilise le r�
                                 width="100"
                             />
                         </div>
+
+
+
                     </div>
                 </div>
             </div>
